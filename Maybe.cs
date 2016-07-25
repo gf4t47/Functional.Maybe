@@ -1,11 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics.Contracts;
-using System.Runtime.Serialization;
-
-namespace Functional.Maybe
+﻿namespace Laserfiche.Spark.Extensions.Option
 {
-	/// <summary>
+    using System;
+    using System.Collections.Generic;
+    using System.Diagnostics.Contracts;
+    using System.Runtime.Serialization;
+
+    /// <summary>
 	/// The option type; explicitly represents nothing-or-thing nature of a value. 
 	/// Supports some of the LINQ operators, such as SelectMany, Where and can be used 
 	/// with linq syntax: 
@@ -26,89 +26,89 @@ namespace Functional.Maybe
 	/// </example>
 	/// <typeparam name="T"></typeparam>
 	[DataContract]
-	public struct Maybe<T> : IEquatable<Maybe<T>>
-	{
-		/// <summary>
-		/// Nothing value.
-		/// </summary>
-		public static readonly Maybe<T> Nothing = new Maybe<T>();
+    public struct Maybe<T> : IEquatable<Maybe<T>>
+    {
+        /// <summary>
+        /// Nothing value.
+        /// </summary>
+        public static readonly Maybe<T> Nothing = new Maybe<T>();
 
-		/// <summary>
-		/// The value, stored in the monad. Can be accessed only if is really present, otherwise throws
-		/// </summary>
-		/// <exception cref="InvalidOperationException"> is thrown if not value is present</exception>
-		public T Value
-		{
-			get
-			{
-				if (!HasValue) throw new InvalidOperationException("value is not present");
-				return _value;
-			}
-		}
-		/// <summary>
-		/// The flag of value presence
-		/// </summary>
-		public bool HasValue { get { return _hasValue; } }
+        /// <summary>
+        /// The value, stored in the monad. Can be accessed only if is really present, otherwise throws
+        /// </summary>
+        /// <exception cref="InvalidOperationException"> is thrown if not value is present</exception>
+        public T Value
+        {
+            get
+            {
+                if (!this.HasValue) throw new InvalidOperationException("value is not present");
+                return this._value;
+            }
+        }
+        /// <summary>
+        /// The flag of value presence
+        /// </summary>
+        public bool HasValue { get { return this._hasValue; } }
 
-		/// <inheritdoc />
-		public override string ToString()
-		{
-			if (!HasValue)
-			{
-				return "<Nothing>";
-			}
+        /// <inheritdoc />
+        public override string ToString()
+        {
+            if (!this.HasValue)
+            {
+                return "<Nothing>";
+            }
 
-			return Value.ToString();
-		}
+            return this.Value.ToString();
+        }
 
-		/// <summary>
-		/// Automatical flattening of the monad-in-monad
-		/// </summary>
-		/// <param name="doubleMaybe"></param>
-		/// <returns></returns>
-		public static implicit operator Maybe<T>(Maybe<Maybe<T>> doubleMaybe)
-		{
-			return doubleMaybe.HasValue ? doubleMaybe.Value : Nothing;
-		}
+        /// <summary>
+        /// Automatical flattening of the monad-in-monad
+        /// </summary>
+        /// <param name="doubleMaybe"></param>
+        /// <returns></returns>
+        public static implicit operator Maybe<T>(Maybe<Maybe<T>> doubleMaybe)
+        {
+            return doubleMaybe.HasValue ? doubleMaybe.Value : Nothing;
+        }
 
-		internal Maybe(T value)
-		{
-			Contract.Requires(value != null);
+        internal Maybe(T value)
+        {
+            Contract.Requires(value != null);
 
-			_value = value;
-			_hasValue = true;
-		}
+            this._value = value;
+            this._hasValue = true;
+        }
 
-		public bool Equals(Maybe<T> other)
-		{
-			return EqualityComparer<T>.Default.Equals(_value, other._value) && _hasValue.Equals(other._hasValue);
-		}
+        public bool Equals(Maybe<T> other)
+        {
+            return EqualityComparer<T>.Default.Equals(this._value, other._value) && this._hasValue.Equals(other._hasValue);
+        }
 
-		public override bool Equals(object obj)
-		{
-			if (ReferenceEquals(null, obj)) return false;
-			return obj is Maybe<T> && Equals((Maybe<T>) obj);
-		}
+        public override bool Equals(object obj)
+        {
+            if (ReferenceEquals(null, obj)) return false;
+            return obj is Maybe<T> && this.Equals((Maybe<T>)obj);
+        }
 
-		public override int GetHashCode()
-		{
-			unchecked
-			{
-				return (EqualityComparer<T>.Default.GetHashCode(_value)*397) ^ _hasValue.GetHashCode();
-			}
-		}
+        public override int GetHashCode()
+        {
+            unchecked
+            {
+                return (EqualityComparer<T>.Default.GetHashCode(this._value) * 397) ^ this._hasValue.GetHashCode();
+            }
+        }
 
-		public static bool operator ==(Maybe<T> left, Maybe<T> right)
-		{
-			return left.Equals(right);
-		}
+        public static bool operator ==(Maybe<T> left, Maybe<T> right)
+        {
+            return left.Equals(right);
+        }
 
-		public static bool operator !=(Maybe<T> left, Maybe<T> right)
-		{
-			return !left.Equals(right);
-		}
+        public static bool operator !=(Maybe<T> left, Maybe<T> right)
+        {
+            return !left.Equals(right);
+        }
 
-		private readonly T _value;
-		private readonly bool _hasValue;
-	}
+        private readonly T _value;
+        private readonly bool _hasValue;
+    }
 }
