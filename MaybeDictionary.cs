@@ -1,8 +1,12 @@
-﻿namespace Laserfiche.Spark.Extensions.Option
+﻿// Laserfiche  - Copyright(c) 1993-2016 Compulink Management Center, Inc.
+namespace Laserfiche.Spark.Extensions.Option
 {
     using System.Collections.Generic;
     using System.Diagnostics.Contracts;
 
+    /// <summary>
+    /// Looks in a dictionary for a given key.
+    /// </summary>
     public static class MaybeDictionary
     {
         /// <summary>
