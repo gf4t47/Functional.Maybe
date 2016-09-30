@@ -45,6 +45,7 @@
                 return this._value;
             }
         }
+
         /// <summary>
         /// The flag of value presence
         /// </summary>
@@ -148,7 +149,10 @@
             return !left.Equals(right);
         }
 
+        /// <summary>The _value.</summary>
         private readonly T _value;
+
+        /// <summary>The _has value.</summary>
         private readonly bool _hasValue;
     }
 }
