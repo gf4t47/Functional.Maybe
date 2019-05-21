@@ -76,6 +76,13 @@ Maybe<int> maybeAnotherNumber = (4).ToMaybe();
 int? ok = maybeNumber.ToNullable() ?? maybeAnotherNumber.ToNullable();
 ```
 
+### Async support
+
+```cs
+Task<int> two() => Task.FromResult(2);
+var onePlusTwo = await 1.ToMaybe().SelectAsync(async one => one + (await two()));
+Assert.AreEqual(3, onePlusTwo.Value);
+```
 ### Extracting values
 
 Sometime you want to pull out a value with a default value in case of `Nothing`:

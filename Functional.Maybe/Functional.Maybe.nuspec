@@ -16,7 +16,7 @@
 		Option types for C# with LINQ support and rich fluent syntax for many popular uses:
 
 		var maybeOne = "one".ToMaybe();
-		var maybeAnother = Maybe<string>.Nothing;
+		Maybe<string> maybeAnother;
 
 		var maybeBoth = 
 			from one in maybeOne
@@ -24,7 +24,7 @@
 			select one + another;
 
 		maybeBoth.Match(
-			both =>Console.WriteLine("Result is: {0}", both), 
+			both => Console.WriteLine("Result is: {0}", both), 
 			@else: () => Console.WriteLine("Result is Nothing, as one of the inputs was Nothing")
 		);]]>
 		</description>
